@@ -1,0 +1,4 @@
+%sql
+
+--4. Query "CUSTOMER" table data
+select * from johnson.customer;
