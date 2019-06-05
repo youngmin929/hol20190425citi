@@ -1,15 +1,15 @@
 --1. Drop and Create Table "CUSTOMER"
-drop table johnson.customer purge;
-create table johnson.customer (ID NUMBER, FIRST_NAME VARCHAR2(40), LAST_NAME VARCHAR2(40), GENDER CHAR(1), YEAR_OF_BIRTH NUMBER(4), EMAIL VARCHAR2(50));
+drop table admin.customer purge;
+create table admin.customer (ID NUMBER, FIRST_NAME VARCHAR2(40), LAST_NAME VARCHAR2(40), GENDER CHAR(1), YEAR_OF_BIRTH NUMBER(4), EMAIL VARCHAR2(50));
     
---2. Drop and Create credential "CREDENTIAL_JOHNSON"
+--2. Drop and Create credential "CREDENTIAL_ADMIN"
 begin DBMS_CLOUD.DROP_CREDENTIAL(
-    credential_name => 'CREDENTIAL_JOHNSON'
+    credential_name => 'CREDENTIAL_ADMIN'
     );
 end;
 /
 begin DBMS_CLOUD.CREATE_CREDENTIAL(
-    credential_name => 'CREDENTIAL_JOHNSON',
+    credential_name => 'CREDENTIAL_ADMIN',
     username => 'oracleidentitycloudservice/yongmin.jin@oracle.com',  --<<< OCI User info
     password => '37CA+pWb7-cUQlnKr8Wk'                                --<<< Token info
     );
@@ -19,12 +19,12 @@ end;
 --3. Load data from object storage to "CUSTOMER" table.
 begin dbms_cloud.copy_data
     (table_name =>'CUSTOMER',
-    credential_name => 'CREDENTIAL_JOHNSON',                                                                                    --<<< Credential name created above
+    credential_name => 'CREDENTIAL_ADMIN',                                                                                    --<<< Credential name created above
     file_uri_list => 'https://objectstorage.us-ashburn-1.oraclecloud.com/n/hol20190425citi/b/Bucket_For_ADW/o/customer.csv',    --<<< URL Path of file on object storage.
     format => json_object('delimiter' value ',')
      );
 END;
 /
 
---4. Query "CUSTOMER" table data
-select * from johnson.customer;
+--4. Query "ADMIN" table data
+select * from admin.customer;
